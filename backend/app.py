@@ -103,7 +103,7 @@ def hello():
 @app.route('/loadstocks')
 def loadStocks():
     stocksList = requests.get(
-        'https://finnhub.io/api/v1/stock/symbol?exchange=US&token=c26mmgqad3i8b33nt2cg'
+        'https://finnhub.io/api/v1/stock/symbol?exchange=US&token=YOUR_ACCESS_TOKEN'
     )
     return jsonify(stocksList.json())
 
