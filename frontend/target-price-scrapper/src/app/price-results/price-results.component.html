@@ -1,0 +1,102 @@
+<!-- <div class="price-resultes-wrapper" *ngIf="priceResultModel != null">
+    <mat-tab-group mat-align-tabs="center">
+        <mat-tab label="Finviz" *ngIf="priceResultModel.finviz != null">
+            <div class="content-box">
+                <div class="site-logo">
+                   
+                </div>
+                <div class="site-results">
+
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Wsj" *ngIf="priceResultModel.wsj != null">
+            <div class="content-box">
+                <div class="site-logo">
+                    <img src="assets/images/wsj-logo-small.svg" alt="">
+                </div>
+                <div class="site-results">
+
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Tipranks" *ngIf="priceResultModel.tipRanks != null">
+            <div class="content-box">
+                <div class="site-logo">
+                    <img src="assets/images/tipranks-logo.svg" alt="">
+                </div>
+                <div class="site-results">
+
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div> -->
+
+<div class="price-resultes-wrapper"  *ngIf="priceResultModel != null">
+  <div class="results-title">
+    <h2>Here is what we found</h2>
+  </div>
+    <mat-card class="site-card" data-aos-delay="1200" data-aos="fade-right" *ngIf="priceResultModel.finviz != null">
+        <mat-card-header class="card-header">
+          <!-- <div mat-card-avatar class="example-header-image"></div> -->
+          <mat-card-title><img src="assets/images/finviz-logo.png" alt=""></mat-card-title>
+          <mat-card-subtitle>{{priceResultModel.stockName}}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+        <mat-card-content>
+          <h3>
+           PRICE
+          </h3>
+          <p>
+            {{priceResultModel.finviz.targetPrice}}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>LIKE</button>
+          <button mat-button>SHARE</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="site-card" data-aos-delay="1200" data-aos="fade-right"  *ngIf="priceResultModel.wsj != null">
+        <mat-card-header class="card-header">
+          <!-- <div mat-card-avatar class="example-header-image"></div> -->
+          <mat-card-title><img src="assets/images/finviz-logo.png" alt=""></mat-card-title>
+          <mat-card-subtitle>{{priceResultModel.stockName}}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+        <mat-card-content>
+          <h3>
+           PRICE
+          </h3>
+          <p>
+            {{priceResultModel.finviz.targetPrice}}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>LIKE</button>
+          <button mat-button>SHARE</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="site-card"  *ngIf="priceResultModel.tipRanks != null">
+        <mat-card-header class="card-header">
+          <!-- <div mat-card-avatar class="example-header-image"></div> -->
+          <mat-card-title><img src="assets/images/finviz-logo.png" alt=""></mat-card-title>
+          <mat-card-subtitle>{{priceResultModel.stockName}}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+        <mat-card-content>
+          <h3>
+           PRICE
+          </h3>
+          <p>
+            {{priceResultModel.finviz.targetPrice}}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>LIKE</button>
+          <button mat-button>SHARE</button>
+        </mat-card-actions>
+      </mat-card>
+</div>

@@ -1,0 +1,10 @@
+@import '~swiper/swiper-bundle.css';
+/* @import "~swiper/swiper-bundle"; */
+.swiper-container {
+  width: 100%;
+  height: auto;
+  margin: 50px auto;
+}
+.logo-wrapper{text-align: center;}
+.logo-wrapper img{height: 2.5vw;margin: auto;}
+.swiper-button-prev, .swiper-button-next{color: rgba(0, 0, 0, 0.87);}
