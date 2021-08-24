@@ -5,7 +5,7 @@ import { Wsj } from "./wsj.model";
 export class PriceResult {
     stockName: String;
     companyLogoSrc: String
-    finviz: Finviz;
-    tipRanks: TipRanks;
-    wsj: Wsj;
+    finviz?: Finviz = {targetPrice: ""};
+    tipRanks?: TipRanks= {high: "",average: "",lowest:""};
+    wsj?: Wsj = {high: "",average: "",lowest:""};;
 }    

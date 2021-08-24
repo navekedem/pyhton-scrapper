@@ -11,6 +11,7 @@ from flask_cors import CORS
 from models.priceResult import PriceResult
 from models.finviz import Finviz
 from models.tipranks import TipRanks
+from models.wsj import Wsj
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
@@ -31,7 +32,6 @@ def scrapeFinviz(stockSymbol):
                 targetPriceLabel = result.find(string="Target Price")
                 if targetPriceLabel:
                     finvizRes.price = result.next_sibling.find(text=True)
-                    print ('Made it')
             return finvizRes
         return "Not Found" 
     except urllib.error.HTTPError:
@@ -70,29 +70,35 @@ def scrapeTipranks(stockSymbol):
 
 
 def scrapeWsj(stockSymbol):
+    wsj = Wsj('0','0','0')
     upperSymbol = stockSymbol.upper()
-    wsjURL = 'https://www.wsj.com/market-data/quotes/{}/research-ratings'.format(upperSymbol)
-    page = urllib.request.Request(wsjURL, headers={"User-Agent": "Mozilla/5.0"})
-    response = urllib.request.urlopen(page)
-    soup = BeautifulSoup(response, "html.parser")
-    results = soup.findAll("td")
-    for index, result in enumerate(results):
-        targetPriceLabelHigh = result.find(string="High")
-        targetPriceLabelMedium = result.find(string="Median")
-        targetPriceLabelLow = result.find(string="Low")
-        targetPriceLabelAvg = result.find(string="Average")
-        if targetPriceLabelHigh:
-            print(result.findNext('td').text)
-        if targetPriceLabelMedium:
-            print(result.findNext('td').text)
-        if targetPriceLabelLow:
-            print(result.findNext('td').text)
-        if targetPriceLabelAvg:
-            print(result.findNext('td').text)
+    try:
+        wsjURL = 'https://www.wsj.com/market-data/quotes/{}/research-ratings'.format(upperSymbol)
+        page = urllib.request.Request(wsjURL, headers={"User-Agent": "Mozilla/5.0"})
+        response = urllib.request.urlopen(page)
+        soup = BeautifulSoup(response, "html.parser")
+        results = soup.findAll("td")
+        if len(results) > 0:
+            for index, result in enumerate(results):
+                targetPriceLabelHigh = result.find(string="High")
+                targetPriceLabelMedium = result.find(string="Median")
+                targetPriceLabelLow = result.find(string="Low")
+                targetPriceLabelAvg = result.find(string="Average")
+                if targetPriceLabelHigh:
+                    wsj.high = result.findNext('td').text
+                # if targetPriceLabelMedium:
+                #     wsj.mid = result.findNext('td').text
+                if targetPriceLabelLow:
+                    wsj.low = result.findNext('td').text
+                if targetPriceLabelAvg:
+                    wsj.mid = result.findNext('td').text
+            return wsj
+        return "Not Found"           
+    except urllib.error.HTTPError:
+        print ('Hello Error')
+    return "Not Found"    
 
 
-def getCompanyLogo():
-    return ""; 
 
 
 @app.route("/")
@@ -103,27 +109,50 @@ def hello():
 @app.route('/loadstocks')
 def loadStocks():
     stocksList = requests.get(
-        'https://finnhub.io/api/v1/stock/symbol?exchange=US&token=YOUR_ACCESS_TOKEN'
+        'https://finnhub.io/api/v1/stock/symbol?exchange=US&token=c26mmgqad3i8b33nt2cg'
     )
     return jsonify(stocksList.json())
+
+
+def getCompanyLogoUrl(companyName):
+    url = "assets/images/TPC.svg"
+    if(companyName):    
+        # url = "https://logo.clearbit.com/{}.com?size=200".format(companyName)
+        queryUrl = "https://autocomplete.clearbit.com/v1/companies/suggest?query={}".format(companyName)
+        companies = requests.get(queryUrl)
+        companiesArr = json.loads(companies.text)
+        if len(companiesArr) > 0:
+            for index, result in enumerate(companiesArr):
+                if companyName in result['domain']:
+                    url = result['logo'] + "?size=200"
+                    print(url)
+                    break
+    return url
 
 
 @app.route("/searchstock", methods=['POST'])
 def searchStock():
     if request.method == 'POST':
-        priceResult = PriceResult(None,None,None)
+        priceResult = PriceResult(None,None,None,None,None)
         request_data = request.get_json()
         stockSymbol = request_data['stockSymbol']
+        companyName = request_data['companyName']
+        priceResult.companyLogoSrc = getCompanyLogoUrl(companyName.lower())
         finviz = scrapeFinviz(stockSymbol)
         if(finviz != "Not Found"):
-            priceResult.finviz = finviz
+            priceResult.finviz = json.dumps(finviz.__dict__)
         tipranks = scrapeTipranks(stockSymbol)
         if (tipranks != "Not Found"):
-            priceResult.tipRanks = tipranks
+            priceResult.tipRanks = json.dumps(tipranks.__dict__)
+        wsj = scrapeWsj(stockSymbol)
+        if (wsj != "Not Found"):
+            priceResult.wsj = json.dumps(wsj.__dict__)
         if (priceResult.finviz == None and priceResult.tipRanks == None and priceResult.wsj == None):
             return "Record not found",status.HTTP_400_BAD_REQUEST
-        priceResult = json.dumps(scrapeFinviz(priceResult).__dict__)
-        return jsonify(priceResult),200    
+        priceResult = json.dumps(priceResult.__dict__)
+        # print(priceResult)    
+        return jsonify(priceResult),200  
+        # return "Hello",200      
     return "Record not found",status.HTTP_400_BAD_REQUEST
 
 

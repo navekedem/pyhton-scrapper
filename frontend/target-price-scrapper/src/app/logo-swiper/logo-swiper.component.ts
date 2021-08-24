@@ -3,7 +3,6 @@ import { SwiperComponent } from 'swiper/angular';
 import 'swiper/swiper-bundle.css'
 import SwiperCore, {
   Navigation,
-  Pagination,
   Scrollbar,
   A11y,
   Virtual,
@@ -35,8 +34,19 @@ export class LogoSwiperComponent implements OnInit {
   @ViewChild("swiperRef", { static: false }) swiperRef?: SwiperComponent;
   show: boolean;
   thumbs: any;
-  constructor(private cd: ChangeDetectorRef) {}
-  ngOnInit() {}
+  swiperConfig: any = {
+    slidesPerView: 2,
+    autoplay: true,
+    loop:true,
+    breakpoints: {
+      768: {
+        spaceBetween: 20,
+        slidesPerView: 3,
+      }
+    }
+  }
+  constructor(private cd: ChangeDetectorRef) { }
+  ngOnInit() { }
 
   controlledSwiper: any;
   setControlledSwiper(swiper) {
@@ -53,7 +63,7 @@ export class LogoSwiperComponent implements OnInit {
 
   breakpoints = {
     640: { slidesPerView: 2, spaceBetween: 20 },
-    768: { slidesPerView: 4, spaceBetween: 40 },
+    768: { slidesPerView: 2, spaceBetween: 40 },
     1024: { slidesPerView: 4, spaceBetween: 30 }
   };
 
@@ -66,7 +76,7 @@ export class LogoSwiperComponent implements OnInit {
     this.breakPointsToggle = !this.breakPointsToggle;
     this.breakpoints = {
       640: { slidesPerView: 2, spaceBetween: 20 },
-      768: { slidesPerView: 4, spaceBetween: 40 },
+      768: { slidesPerView: 2, spaceBetween: 40 },
       1024: { slidesPerView: this.breakPointsToggle ? 7 : 5, spaceBetween: 30 }
     };
   }

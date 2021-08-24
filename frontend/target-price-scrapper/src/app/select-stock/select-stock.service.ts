@@ -33,8 +33,8 @@ export class SelectStockService  {
       return this.stockListSubjet.asObservable();
     }
 
-    updatePriceResult(stocksymbol: string) : void {
-        this.priceResultService.GetStockSymbol(stocksymbol);
+    updatePriceResult(stocksymbol: string,companyName:string) : void {
+        this.priceResultService.GetStockSymbol(stocksymbol,companyName);
     }
 
 }

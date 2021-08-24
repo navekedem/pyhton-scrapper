@@ -14,15 +14,19 @@ export class PriceResultsComponent implements OnInit {
   priceResultModel: PriceResult;
   //filteredOptions: Observable<PriceResult>;
   private priceResultSub: Subscription;
-
+  private loaderSub: Subscription;
+  loader:boolean = false;
   constructor(private priceResultService: PriceResultService) {
-    this.priceResultSub = this.priceResultService.getUpdatedPriceResultLiscener().subscribe((priceData: { priceResult: PriceResult }) => {
+    this.loaderSub = this.priceResultService.getUpdatedLoaderiscener().subscribe((serviceLoader: {isLoading:boolean}) => {
+      this.loader = serviceLoader.isLoading;
+    })
+    this.priceResultSub = this.priceResultService.getUpdatedPriceResultLiscener().subscribe((priceData: { priceResult: PriceResult }) => {     
       this.priceResultModel = priceData.priceResult;
-      console.log(this.priceResultModel);
     });
   }                
 
   ngOnInit(): void {
+   
   }
 
 }

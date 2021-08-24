@@ -1,3 +1,3 @@
-export class Finviz {
-    targetPrice: number;
-}
+export interface Finviz {
+    targetPrice: string;
+} 

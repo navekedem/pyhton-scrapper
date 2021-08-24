@@ -3,5 +3,4 @@ class PriceResult:
         self.finviz = finviz
         self.wsj = wsj
         self.tipRanks = tipRanks
-        self.stockName = stockName
         self.companyLogoSrc = companyLogoSrc

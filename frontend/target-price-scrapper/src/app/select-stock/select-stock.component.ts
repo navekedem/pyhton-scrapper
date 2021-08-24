@@ -40,8 +40,8 @@ export class SelectStockComponent implements OnInit {
     return this.stocks.filter(option => option.displaySymbol.toLowerCase().indexOf(filterValue) === 0 || option.description.toLowerCase().indexOf(filterValue) === 0).slice(0,10);
   }
 
-  getStock(stockName) {
-   this.stockService.updatePriceResult(stockName.displaySymbol);
+  getStock(stockName:Stock) {
+   this.stockService.updatePriceResult(stockName.displaySymbol,stockName.description);
   }
 }
 

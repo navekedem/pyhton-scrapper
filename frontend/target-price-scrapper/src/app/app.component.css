@@ -8,3 +8,7 @@ footer .contact-list ul li{margin: 0 0.5rem;}
 footer .contact-title h3{text-align: center;margin: 0.1rem 0 0.8rem;}
 footer .contact-link mat-icon{color: #000;font-size: 1.6rem;height: auto;width: auto;}
 footer .contact-link img{height: 1.6rem;}
+
+@media (max-width:768px) {
+    :host ::ng-deep .container{max-width: 95vw;margin: auto;}
+}

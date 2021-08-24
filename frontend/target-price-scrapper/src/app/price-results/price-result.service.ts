@@ -12,38 +12,71 @@ import { Finviz } from '../models/finviz.model';
     providedIn: 'root',
 })
 export class PriceResultService  {
-    private finvizModel = new Finviz();
     private priceResult = new PriceResult();
     private priceResultSubjet = new Subject<{priceResult :PriceResult}>();
-
+    private loaderSubject =  new Subject<{isLoading: boolean}>();
 
     constructor(private http: HttpClient) { 
        
     }
 
-    GetStockSymbol(stockSymbol: string):void {
+    GetStockSymbol(stockSymbol: string,companyName:string):void {
         if(stockSymbol) {
-            this.searchStockPrice(stockSymbol);
+            this.searchStockPrice(stockSymbol,this.filterCompanyName(companyName));
         }
     }
 
 
-    searchStockPrice(stocksymbol: string) : void {
-        this.http.post<any>("http://127.0.0.1:5000/searchstock",{ stockSymbol: stocksymbol }).subscribe(res => {
+    searchStockPrice(stocksymbol: string,companyName:string) : void {
+        this.loaderSubject.next({isLoading: true})
+        this.http.post<any>("http://127.0.0.1:5000/searchstock",{ stockSymbol: stocksymbol,companyName:companyName }).subscribe(res => {
             if(res) {
-                let finviz = JSON.parse(res);
-                if(finviz.price === "-") return;
-                this.finvizModel.targetPrice = finviz.price;
-                this.priceResult.finviz = this.finvizModel;
+                let priceResult = JSON.parse(res);
+                if(!priceResult) return;
+                // this.finvizModel.targetPrice = priceResult.Finviz.price;
+                this.priceResult = this.convertPriceResponseToViewModel(priceResult);
                 this.priceResultSubjet.next({priceResult: this.priceResult })
+                this.loaderSubject.next({isLoading: false})
             }
         },(err:HttpErrorResponse)=>{
             console.log(err);
         });
 
     }
-
+    filterCompanyName(companyName:string) : string{
+        return companyName.split(' ')[0];
+    }
     getUpdatedPriceResultLiscener() {
         return this.priceResultSubjet.asObservable();
+    }      
+    getUpdatedLoaderiscener() {
+        return this.loaderSubject.asObservable();
+    }       
+    convertPriceResponseToViewModel(responseModel: any) : PriceResult {
+        console.log(responseModel);
+        let tempPriceResult:PriceResult = new PriceResult();
+        let tempfinviz;
+        let tempTipRanks;
+        let tempWsj;
+        if(responseModel.finviz) {
+            tempfinviz = JSON.parse(responseModel.finviz);
+        }
+        if(responseModel.tipRanks) {
+            tempTipRanks = JSON.parse(responseModel.tipRanks);
+        }
+        if(responseModel.tipRanks) {
+            tempWsj = JSON.parse(responseModel.wsj);
+        }
+        tempPriceResult.companyLogoSrc = responseModel.companyLogoSrc;
+        tempPriceResult.finviz.targetPrice = tempfinviz.price;
+        //TipRanks
+        tempPriceResult.tipRanks.high = tempTipRanks.high;
+        tempPriceResult.tipRanks.average = tempTipRanks.mid;
+        tempPriceResult.tipRanks.lowest = tempTipRanks.low;
+        //Wsj
+        tempPriceResult.wsj.high = tempWsj.high;
+        tempPriceResult.wsj.average = tempWsj.mid;
+        tempPriceResult.wsj.lowest = tempWsj.low;
+        return tempPriceResult;
     }
 }

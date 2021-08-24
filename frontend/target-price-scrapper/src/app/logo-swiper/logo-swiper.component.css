@@ -8,3 +8,9 @@
 .logo-wrapper{text-align: center;}
 .logo-wrapper img{height: 2.5vw;margin: auto;}
 .swiper-button-prev, .swiper-button-next{color: rgba(0, 0, 0, 0.87);}
+
+@media (max-width:768px) {
+  .logo-wrapper img{height: 1.5rem;}
+  .swiper-button-prev, .swiper-button-next{width: 10px;}
+  .swiper-button-prev::after, .swiper-button-next::after{font-size: 22px;}
+}
