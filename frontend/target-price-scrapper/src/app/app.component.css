@@ -1,8 +1,11 @@
-header .page-header{background-color: #e20e0eb8; padding: 0.5rem;box-shadow: 0 0 10px;}
+header .page-header{background-color: #e20e0eb8; padding: 0rem;box-shadow: 0 0 10px;}
+header .page-header ul{display: flex;align-items: baseline;list-style: none;margin: 0;padding: 0;}
+header .page-header ul li a{text-decoration: none;padding: 1rem;transition: all 0.3s ease-in-out;display: block;color: #fff;}
+header .page-header ul li a:hover{background-color: #fff;transform: scale(1.02);color: #e20e0eb8;}
 header .page-header img{height: 2.5rem;}
-:host ::ng-deep .container{max-width: 70vw;margin: auto;}
-#content .row{text-align: center;}
-footer{background-color: #fff;box-shadow: 0 0 6px;padding: 0.5rem;display: flex;justify-content: center;}
+
+footer.footer-bottom{position: absolute;width: 100%;bottom: 0;}
+footer{background-color: #fff;box-shadow: 0 0 6px;padding: 0.5rem 0;display: flex;justify-content: center;}
 footer .contact-list ul{display: flex;list-style: none;padding: 0;margin: 0;}
 footer .contact-list ul li{margin: 0 0.5rem;}
 footer .contact-title h3{text-align: center;margin: 0.1rem 0 0.8rem;}

@@ -5,7 +5,7 @@
               <mat-label>Search Stock Ticker Or Company Name</mat-label>
               <mat-icon aria-hidden="false" aria-label="Example home icon">search</mat-icon>
               <input type="text" matInput [formControl]="searchStockControl" class="searchTicker" [matAutocomplete]="auto">
-              <mat-autocomplete #auto="matAutocomplete" (optionSelected)='getStock($event.option.value)' [displayWith]="displayFn">
+              <mat-autocomplete #auto="matAutocomplete" class="autocomplete-box" classlist="autocomplete-box" (optionSelected)='getStock($event.option.value)' [displayWith]="displayFn">
                 <mat-option *ngFor="let stock of filteredOptions | async;" [value]="stock">
                   {{stock.displaySymbol}} | {{stock.description}}
                 </mat-option>

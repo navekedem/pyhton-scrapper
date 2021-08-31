@@ -16,7 +16,9 @@ import {MatCardModule} from '@angular/material/card'
 import { HttpClientModule } from '@angular/common/http';
 import { LogoSwiperComponent } from './logo-swiper/logo-swiper.component';
 import { PriceResultsComponent } from './price-results/price-results.component';
-import {MatTabsModule} from '@angular/material/tabs'
+import {MatTabsModule} from '@angular/material/tabs';
+import { HomepageComponent } from './homepage/homepage.component';
+import { IpocalenderComponent } from './ipocalender/ipocalender.component'
 
 
 @NgModule({
@@ -25,6 +27,8 @@ import {MatTabsModule} from '@angular/material/tabs'
     SelectStockComponent,
     LogoSwiperComponent,
     PriceResultsComponent,
+    HomepageComponent,
+    IpocalenderComponent,
   ],
   imports: [
     BrowserModule,

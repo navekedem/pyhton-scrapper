@@ -6,14 +6,13 @@
 </div>
 
 <div class="price-resultes-wrapper" *ngIf="priceResultModel != null || loader">
-  <!-- <div class="results-title" data-aos-delay="2200" data-aos="fade-down">
-    <h2>Here is what we found</h2>
-  </div> -->
+  <div class="results-title" data-aos-delay="2200" data-aos="fade-down">
+    <h2><img src={{priceResultModel.companyLogoSrc}} alt=""> {{priceResultModel.stockName}} Current price: {{priceResultModel.currentStockPrice}}</h2>
+  </div>
   <mat-card class="site-card" data-aos="fade-right" *ngIf="priceResultModel.finviz != null">
     <mat-card-header class="card-header">
       <!-- <div mat-card-avatar class="example-header-image"></div> -->
       <mat-card-title><img src="assets/images/finviz-logo.png" alt=""></mat-card-title>
-      <mat-card-subtitle>{{priceResultModel.stockName}}</mat-card-subtitle>
     </mat-card-header>
     <img mat-card-image src={{priceResultModel.companyLogoSrc}} alt="Photo of a Shiba Inu">
     <mat-card-content>
@@ -26,11 +25,10 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-card class="site-card" data-aos="fade-right" *ngIf="priceResultModel.wsj != null">
+  <mat-card class="site-card" data-aos-delay="200" data-aos="fade-right" *ngIf="priceResultModel.wsj != null">
     <mat-card-header class="card-header">
       <!-- <div mat-card-avatar class="example-header-image"></div> -->
       <mat-card-title><img src="assets/images/wsj-logo-small.svg" alt=""></mat-card-title>
-      <mat-card-subtitle>{{priceResultModel.stockName}}</mat-card-subtitle>
     </mat-card-header>
     <img mat-card-image src={{priceResultModel.companyLogoSrc}} alt="Photo of a Shiba Inu">
     <mat-card-content>
@@ -49,11 +47,10 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-card class="site-card" data-aos="fade-right" *ngIf="priceResultModel.tipRanks != null">
+  <mat-card class="site-card" data-aos-delay="200" data-aos="fade-right" *ngIf="priceResultModel.tipRanks != null">
     <mat-card-header class="card-header">
       <!-- <div mat-card-avatar class="example-header-image"></div> -->
       <mat-card-title><img src="assets/images/tipranks-logo.svg" alt=""></mat-card-title>
-      <mat-card-subtitle>{{priceResultModel.stockName}}</mat-card-subtitle>
     </mat-card-header>
     <img mat-card-image src={{priceResultModel.companyLogoSrc}} alt="Photo of a Shiba Inu">
     <mat-card-content>

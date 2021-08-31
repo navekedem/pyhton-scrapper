@@ -1,32 +1,19 @@
 <header>
   <div class="page-header">
-    <img src="assets/images/TPC.svg" alt="" srcset="">
+    <ul>
+      <li><a routerLink="/"> <img src="assets/images/TPC.svg" alt="" srcset=""></a></li>
+      <li><a routerLink="/ipocalender" routerLinkActive="active"><mat-icon>calendar_today</mat-icon> IPO Calender</a></li>
+      <li><a routerLink="/temp" routerLinkActive="active"><mat-icon>calendar_today</mat-icon> Eranings Calender</a></li>
+    </ul>
+   
   </div>
 </header>
 
 <main>
-  <section id="banner" class="main-banner">
-
-  </section>
-  <section id="content" class="main-content">
-    <div class="container">
-        <div class="row" data-aos="fade-up">
-          <h1>Target Price Comparison</h1>
-          <p>
-            Hello everyone, <br/>
-            here you can compare the stock target prices on the US Stock Exchange<br/>
-            between some of the leading sites in the world
-          </p>
-        </div>
-    </div>
-  </section>
-  <app-select-stock></app-select-stock>   
-  <app-logo-swiper></app-logo-swiper>
-  <app-price-results></app-price-results>
-  <!-- <router-outlet></router-outlet> -->
+  <router-outlet></router-outlet>
 </main>
 
-<footer>
+<footer class="footer-bottom">
   <div class="contact-list">
     <div class="contact-title">
         <h3>Contact Us</h3>

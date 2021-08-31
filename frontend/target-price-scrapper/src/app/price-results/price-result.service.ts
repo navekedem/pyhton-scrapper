@@ -2,10 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import {PriceResult} from '../models/priceResult.model';
 import { Subject } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { from, Observable, Subscription } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { SelectStockService } from '../select-stock/select-stock.service';
-import { Finviz } from '../models/finviz.model';
+
 
 
 @Injectable({
@@ -33,8 +30,8 @@ export class PriceResultService  {
             if(res) {
                 let priceResult = JSON.parse(res);
                 if(!priceResult) return;
-                // this.finvizModel.targetPrice = priceResult.Finviz.price;
                 this.priceResult = this.convertPriceResponseToViewModel(priceResult);
+                this.priceResult.stockName = companyName;
                 this.priceResultSubjet.next({priceResult: this.priceResult })
                 this.loaderSubject.next({isLoading: false})
             }
@@ -53,7 +50,6 @@ export class PriceResultService  {
         return this.loaderSubject.asObservable();
     }       
     convertPriceResponseToViewModel(responseModel: any) : PriceResult {
-        console.log(responseModel);
         let tempPriceResult:PriceResult = new PriceResult();
         let tempfinviz;
         let tempTipRanks;
@@ -64,10 +60,13 @@ export class PriceResultService  {
         if(responseModel.tipRanks) {
             tempTipRanks = JSON.parse(responseModel.tipRanks);
         }
-        if(responseModel.tipRanks) {
+        if(responseModel.wsj) {
             tempWsj = JSON.parse(responseModel.wsj);
         }
+        //global stockProps
         tempPriceResult.companyLogoSrc = responseModel.companyLogoSrc;
+        tempPriceResult.currentStockPrice = responseModel.currentPrice.toString();
+        //finviz
         tempPriceResult.finviz.targetPrice = tempfinviz.price;
         //TipRanks
         tempPriceResult.tipRanks.high = tempTipRanks.high;

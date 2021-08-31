@@ -2,7 +2,7 @@
 .site-card{flex:0 0 22%;text-align:center;padding:15px 0;transition:all .3s ease-in-out;border-radius:15px}
 .site-card:hover{box-shadow:0 2px 1px -1px rgb(0 0 0 / 20%),0 1px 9px 0 rgb(0 0 0 / 14%),0 1px 10px 0 rgb(0 0 0 / 12%);background:hsla(44,100%,70%,.1)}
 .results-title{flex:0 0 100%;text-align:center}
-.results-title h2{text-decoration:underline}
+.results-title h2 img{height: 3rem;vertical-align: middle;}
 .mat-card-header-text{display:block;width:100%;text-align:center}
 .card-header{display:block;text-align:center}
 .mat-card-content{text-align:center}
@@ -39,6 +39,6 @@
     .site-card{flex:0 0 45%;margin-bottom: 2rem;}
 }
 @media (max-width:768px) {
-    .price-resultes-wrapper{display: block;}
+    .price-resultes-wrapper{display: block;overflow-x: unset;}
     .site-card{flex:0 0 100%;}
 }
