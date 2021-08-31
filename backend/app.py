@@ -6,9 +6,10 @@ import time
 import sys
 import urllib.request
 import json
+import finnhub
 from bs4 import BeautifulSoup
 from flask_cors import CORS
-from models.priceResult import PriceResult
+from models.priceResult import PriceResult  
 from models.finviz import Finviz
 from models.tipranks import TipRanks
 from models.wsj import Wsj
@@ -17,6 +18,7 @@ app = Flask(__name__)
 app.config["DEBUG"] = True
 CORS(app)
 
+finnhub_client = finnhub.Client(api_key="c26mmgqad3i8b33nt2cg")
 
 def scrapeFinviz(stockSymbol):
     finvizRes = Finviz('0')
@@ -81,7 +83,7 @@ def scrapeWsj(stockSymbol):
         if len(results) > 0:
             for index, result in enumerate(results):
                 targetPriceLabelHigh = result.find(string="High")
-                targetPriceLabelMedium = result.find(string="Median")
+                # targetPriceLabelMedium = result.find(string="Median")
                 targetPriceLabelLow = result.find(string="Low")
                 targetPriceLabelAvg = result.find(string="Average")
                 if targetPriceLabelHigh:
@@ -117,7 +119,6 @@ def loadStocks():
 def getCompanyLogoUrl(companyName):
     url = "assets/images/TPC.svg"
     if(companyName):    
-        # url = "https://logo.clearbit.com/{}.com?size=200".format(companyName)
         queryUrl = "https://autocomplete.clearbit.com/v1/companies/suggest?query={}".format(companyName)
         companies = requests.get(queryUrl)
         companiesArr = json.loads(companies.text)
@@ -125,9 +126,22 @@ def getCompanyLogoUrl(companyName):
             for index, result in enumerate(companiesArr):
                 if companyName in result['domain']:
                     url = result['logo'] + "?size=200"
-                    print(url)
                     break
     return url
+
+@app.route("/getipo", methods=['POST'])
+def getIpoCalender():
+    request_data = request.get_json()
+    fromDate = request_data['from']
+    toDate = request_data['to']
+    ipoArray = finnhub_client.ipo_calendar(_from=fromDate, to=toDate)    
+    finalIpoArray = list(filter(lambda stock: stock['exchange'] != None,ipoArray['ipoCalendar']))
+    return jsonify(finalIpoArray),200
+
+
+def getStockCurrentPrice(stockSymbol):
+    stockApiResponse = finnhub_client.quote(stockSymbol)
+    return "$" + str(stockApiResponse['c'])
 
 
 @app.route("/searchstock", methods=['POST'])
@@ -137,6 +151,7 @@ def searchStock():
         request_data = request.get_json()
         stockSymbol = request_data['stockSymbol']
         companyName = request_data['companyName']
+        priceResult.currentPrice = getStockCurrentPrice(stockSymbol)
         priceResult.companyLogoSrc = getCompanyLogoUrl(companyName.lower())
         finviz = scrapeFinviz(stockSymbol)
         if(finviz != "Not Found"):
