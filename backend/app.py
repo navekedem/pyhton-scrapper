@@ -134,8 +134,11 @@ def getIpoCalender():
     request_data = request.get_json()
     fromDate = request_data['from']
     toDate = request_data['to']
-    ipoArray = finnhub_client.ipo_calendar(_from=fromDate, to=toDate)    
-    finalIpoArray = list(filter(lambda stock: stock['exchange'] != None,ipoArray['ipoCalendar']))
+    ipoArray = finnhub_client.ipo_calendar(_from=fromDate, to=toDate) 
+    if(ipoArray and len(ipoArray['ipoCalendar']) > 0):   
+        finalIpoArray = list(filter(lambda stock: stock['exchange'] != None,ipoArray['ipoCalendar']))
+    else:   
+        finalIpoArray = []
     return jsonify(finalIpoArray),200
 
 

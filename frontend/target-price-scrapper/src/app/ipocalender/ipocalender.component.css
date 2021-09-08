@@ -1,0 +1,13 @@
+.ipoSection{text-align:center}
+.mat-form-field{width:300px}
+.card-list-table{border-collapse:separate;width:100%;border-spacing:0 19px;margin-bottom: 2rem;}
+table tbody tr{border-radius: 10px;box-shadow:0 1px 6px;transition: all 0.3s ease-in-out;background-size: 200%;}
+table tbody tr:hover{transform: scale(1.01);background: hsla(44,100%,70%,.1);}
+table tbody tr:first-child td:first-child { border-top-left-radius: 10px; }
+table tbody tr:first-child td:last-child { border-top-right-radius: 10px; }
+table tbody tr:last-child td:first-child { border-bottom-left-radius: 10px; }
+table tbody tr:last-child td:last-child { border-bottom-right-radius: 10px; }
+table tbody tr:hover .circle svg{fill: #e20e0eb8;transform: scale(1.1);}
+table tbody tr td{padding:0.8rem 0}
+.circle{background-color:#fff;box-shadow:0 2px 6px;border-radius:50%;height:3rem;width:3.2rem;display:flex;margin:auto; align-items: center;justify-content: center;}
+.circle svg{transition: all 0.5s ease-in-out;}
